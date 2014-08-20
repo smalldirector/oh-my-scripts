@@ -1,0 +1,89 @@
+#!/bin/bash
+echo -e "\033[34m";
+
+cat <<EOF
++======================================================================+
+|                    RABBITMQ SERVER INSTALLATION                      |
++----------------------------------------------------------------------+
+|                 *) INSTALL ERLANG ENVIRONMENT                        |
+|                 *) INSTALL RABBITMQ SERVER ENVIRONMENT               |
++======================================================================+
+EOF
+
+echo -ne "\033[32m";
+# Using a recent esl-erlang build of Erlang Solutions
+esl_erlang_distrib="esl-erlang_16.b.3-1~centos~6_amd64.rpm"
+esl_erlang_distrib_url="http://packages.erlang-solutions.com/site/esl/esl-erlang/FLAVOUR_1_general/$esl_erlang_distrib"
+
+# Download esl-erlang package
+if [ ! -f "$esl_erlang_distrib" ]; then
+    echo "[$esl_erlang_distrib] is downloading ..."
+    curl -LOk "$esl_erlang_distrib_url"
+    if [[ $? -ne 0 ]]
+    then
+        echo "Failed to download esl-erlang at $esl_erlang_distrib_url!"
+        exit 1
+    fi
+    echo "[$esl_erlang_distrib] download is done."
+else
+    echo "esl-erlang already exists, no need to download again!"
+fi
+
+# Install esl-erlang package
+if [ -f "$esl_erlang_distrib" ]; then
+    echo "[$esl_erlang_distrib] is installing ..."
+    chmod u+x "$esl_erlang_distrib"
+    sudo yum install "$esl_erlang_distrib"
+    if [[ $? -ne 0 ]]
+    then
+        echo "Failed to install esl-erlang from $esl_erlang_distrib!"
+        exit 1
+    fi
+    echo "[$esl_erlang_distrib] installation is done."
+else
+    echo "[$esl_erlang_distrib] does not exsit, please download again!"
+    exit 1
+fi
+
+# Import rabbitmq public signing key
+sudo rpm --import http://www.rabbitmq.com/rabbitmq-signing-key-public.asc
+if [[ $? -ne 0 ]]
+then
+    echo "Failed to import rabbitmq public signing key!"
+    exit 1
+fi
+
+# Using a latest rabbitmq server package build
+rabbitmq_distrib="rabbitmq-server-3.3.5-1.noarch.rpm"
+rabbitmq_distrib_url="http://www.rabbitmq.com/releases/rabbitmq-server/v3.3.5/$rabbitmq_distrib"
+
+# Download rabbitmq server package
+if [ ! -f "$rabbitmq_distrib" ]; then
+    echo "[$rabbitmq_distrib] is downloading ..."
+    curl -LOk "$rabbitmq_distrib_url"
+    if [[ $? -ne 0 ]]
+    then
+        echo "Failed to download rabbitmq server package at $rabbitmq_distrib_url!"
+        exit 1
+    fi
+    echo "[$esl_erlang_distrib] download is done."
+else
+    echo "rabbitmq server package already exists, no need to download again!"
+fi
+
+# Install rabbitmq server package
+
+if [ -f "$rabbitmq_distrib" ]; then
+    echo "[$rabbitmq_distrib] is installing ..."
+    chmod u+x "$rabbitmq_distrib"
+    sudo rpm -ivh --nodeps "$rabbitmq_distrib"
+    if [[ $? -ne 0 ]]
+    then
+        echo "Failed to install rabbitmq server package!"
+        exit 1
+    fi
+    echo "[$esl_erlang_distrib] intallation is done."
+else
+    echo "[$esl_erlang_distrib] does not exsit, please download again!"
+    exit 1
+fi
