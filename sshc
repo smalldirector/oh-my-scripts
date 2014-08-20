@@ -1,0 +1,49 @@
+#!/bin/bash
+
+echo -ne "\033[32m";
+
+cat 1>&2 <<EOF
++======================================================================+
+|          PLEASE CHOOSE REMOTE SERVER YOU WANT TO CONNECT             |
++----------------------------------------------------------------------+
+|            1) 0X01 VIRTUALBOX ENVIRONMENT                            |
+|            2) 0X02 VIRTUALBOX ENVIRONMENT(*)                         |
+|            3) 0X03 VIRTUALBOX ENVIRONMENT                            |
++======================================================================+
+EOF
+
+echo -e "\033[34m";
+
+read -p "CHOOSE NUMBER(1,2,3): " server_type
+
+#echo -e "\e[0m";
+
+if [ -z "$server_type" ]; then
+    server_type="2"
+fi
+
+# the dir of pem keys
+keys_dir=/home/gabriel/keys
+
+case $server_type in
+    1 ) ssh gabriel@192.168.0.27;exit;;
+    2 ) ssh gabriel@192.168.0.25;exit;;
+    3 ) ssh gabriel@192.168.0.26;exit;;
+    * ) exit;;
+esac
+
+# connect with remote server
+if [ -z "$pem_key" ]; then
+    echo -e "PLEASE INPUT THE NUMBER YOU CHOOSED!"
+else
+    while true; do
+        read -p "PLEASE INPUT EC2 IP ADDRESS: " ip
+        if [ -n "$ip" ]; then
+            if [ "$ip" == "q" ]; then
+                exit;
+            fi
+            break;
+        fi
+    done
+    ssh -i $keys_dir/$pem_key ec2-user@$ip
+fi
