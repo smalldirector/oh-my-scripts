@@ -2,33 +2,44 @@
 
 echo -ne "\033[32m";
 
-cat 1>&2 <<EOF
+#cat 1>&2 <<EOF
+cat <<EOF
 +======================================================================+
 |          PLEASE CHOOSE REMOTE SERVER YOU WANT TO CONNECT             |
 +----------------------------------------------------------------------+
-|            1) 0X01 VIRTUALBOX ENVIRONMENT                            |
-|            2) 0X02 VIRTUALBOX ENVIRONMENT(*)                         |
-|            3) 0X03 VIRTUALBOX ENVIRONMENT                            |
+|            1) SOLR DEVELOPMENT ENVIRONMENT(*)                        |
+|            2) SOLR TESTING ENVIRONMENT                               |
+|            3) JETTY TESTING ENVIRONMENT                              |
+|            4) 0X01 VIRTUALBOX ENVIRONMENT                            |
+|            5) 0X02 VIRTUALBOX ENVIRONMENT                            |
+|            6) 0X03 VIRTUALBOX ENVIRONMENT                            |
+|            7) 0X02 VIRTUALBOX ENVIRONMENT(MAC)                       |
+|            8) 0X03 VIRTUALBOX ENVIRONMENT(MAC)                       |
 +======================================================================+
 EOF
 
 echo -e "\033[34m";
 
-read -p "CHOOSE NUMBER(1,2,3): " server_type
+read -p "CHOOSE NUMBER(1,2,3,4,5,6,7,8): " server_type
 
-#echo -e "\e[0m";
+echo -e "\e[0m";
 
 if [ -z "$server_type" ]; then
-    server_type="2"
+    server_type="1"
 fi
 
 # the dir of pem keys
 keys_dir=/home/gabriel/keys
 
 case $server_type in
-    1 ) ssh gabriel@192.168.0.27;exit;;
-    2 ) ssh gabriel@192.168.0.25;exit;;
-    3 ) ssh gabriel@192.168.0.26;exit;;
+    1 ) pem_key="dev-env-solr.pem";;
+    2 ) pem_key="test-env-solr.pem";;
+    3 ) pem_key="test-env-jetty.pem";;
+    4 ) ssh gabriel@172.26.147.53;exit;;
+    5 ) ssh gabriel@172.26.147.75;exit;;
+    6 ) ssh gabriel@172.26.147.76;exit;;
+    7 ) ssh gabriel@192.168.0.25;exit;;
+    8 ) ssh gabriel@192.168.0.26;exit;;
     * ) exit;;
 esac
 
