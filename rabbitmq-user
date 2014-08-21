@@ -1,0 +1,33 @@
+#!/bin/bash
+cat <<EOF
++======================================================================+
+|                CREATE RABBITMQ ADMINISTRATOR USER                    |
++----------------------------------------------------------------------+
+EOF
+
+read -p "Please input admin's user name: " username
+read -p "Please input admin's password: " password
+
+# Create user account
+sudo rabbitmqctl add_user $username $password
+if [[ $? -ne 0 ]]; then
+    echo "Failed to create user account!"
+    exit 1
+fi
+
+# Create administrator role
+sudo rabbitmqctl set_user_tags $username administrator
+if [[ $? -ne 0 ]]; then
+    echo "Failed to create user tag[administrator]!"
+    exit 1
+fi
+
+# Grant the permissions on the default vhost
+sudo rabbitmqctl set_permissions -p / $username ".*" ".*" ".*"
+if [[ $? -ne 0 ]]; then
+    echo "Failed to gant user permission on the default vhost!"
+    exit 1
+fi
+
+# List all the users
+sudo rabbitmqctl list_users
