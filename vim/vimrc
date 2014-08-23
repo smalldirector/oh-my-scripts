@@ -1,0 +1,43 @@
+set nocompatible
+filetype off
+
+set rtp+=~/.vim/bundle/Vundle.vim
+call vundle#begin()
+
+Plugin 'gmarik/Vundle.vim'
+Plugin 'vim-scripts/L9'
+Plugin 'vim-scripts/FuzzyFinder'
+Plugin 'vim-scripts/minibufexplorerpp'
+Plugin 'vim-scripts/highlight.vim'
+Plugin 'scrooloose/nerdtree'
+Plugin 'scrooloose/nerdcommenter'
+Plugin 'kien/ctrlp.vim'
+
+call vundle#end()
+filetype plugin indent on
+
+map <F9> :MiniBufExplorer<CR>
+map <C-right> :bnext<CR>
+map <C-left>  :bprevious<CR>
+map <C-f> :FufCoverageFile<CR>
+map <F8> :NERDTreeToggle<CR>
+
+" set mapping for ctrlp
+let g:ctrlp_map = '<c-p>'
+let g:ctrlp_cmd = 'CtrlP'
+let g:ctrlp_working_path_mode = 'ra'
+set wildignore+=*/tmp/*,*.so,*.swp,*.zip,*.class,*.iml
+
+set number
+set tabstop=4
+set shiftwidth=4
+set smartindent
+set expandtab
+set incsearch
+set hlsearch
+
+" set vim encoding
+set encoding=utf-8
+
+" set vim clipboard copy
+set clipboard=unnamed
