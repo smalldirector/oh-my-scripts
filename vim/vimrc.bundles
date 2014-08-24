@@ -1,6 +1,6 @@
 Bundle 'gmarik/Vundle.vim'
 Bundle 'scrooloose/nerdtree'
-Plugin 'scrooloose/nerdcommenter'
+Bundle 'scrooloose/nerdcommenter'
 Bundle 'kien/ctrlp.vim'
 Bundle 'vim-scripts/highlight.vim'
 Bundle 'vim-scripts/minibufexplorerpp'
