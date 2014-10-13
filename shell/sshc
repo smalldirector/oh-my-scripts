@@ -1,8 +1,18 @@
 #!/bin/bash
 
-echo -ne "\033[32m";
+# echo -ne "\033[32m";
+main_screen() {
+cat <<EOF
++======================================================================+
+|                  PLEASE CHOOSE YOUR WORKSPACE                        |
++----------------------------------------------------------------------+
+|                         1) OFFICE (*)                                |
+|                         2) HOME                                      |
++======================================================================+
+EOF
+}
 
-#cat 1>&2 <<EOF
+office_screen() {
 cat <<EOF
 +======================================================================+
 |          PLEASE CHOOSE REMOTE SERVER YOU WANT TO CONNECT             |
@@ -14,24 +24,40 @@ cat <<EOF
 |            5) 0X01 VIRTUALBOX ENVIRONMENT                            |
 |            6) 0X02 VIRTUALBOX ENVIRONMENT                            |
 |            7) 0X03 VIRTUALBOX ENVIRONMENT                            |
-|            8) 0X02 VIRTUALBOX ENVIRONMENT(MAC)                       |
-|            9) 0X03 VIRTUALBOX ENVIRONMENT(MAC)                       |
 +======================================================================+
 EOF
+}
 
-echo -e "\033[34m";
+home_screen() {
+cat <<EOF
++======================================================================+
+|          PLEASE CHOOSE REMOTE SERVER YOU WANT TO CONNECT             |
++----------------------------------------------------------------------+
+|            1) 0X02 VIRTUALBOX ENVIRONMENT                            |
+|            2) 0X03 VIRTUALBOX ENVIRONMENT                            |
++======================================================================+
+EOF
+}
 
-read -p "CHOOSE NUMBER(1,2,3,4,5,6,7,8,9): " server_type
+main_screen
+read -p "CHOOSE WORKSPACE(1,2): " workspace
 
-echo -e "\e[0m";
+if [ -z "$workspace" ]; then
+    workspace="1"
+fi
 
+case $workspace in
+    1 ) office_screen;;
+    2 ) home_screen;;
+    * ) exit;;
+esac
+
+read -p "CHOOSE SERVER NUMBER: " server_type
 if [ -z "$server_type" ]; then
     server_type="1"
 fi
 
-# the dir of pem keys
-keys_dir=/home/gabriel/keys
-
+if [ "$workspace" == "1" ]; then
 case $server_type in
     1 ) pem_key="dev-env-solr.pem";;
     2 ) pem_key="rabbitmq-dev-env.pem";;
@@ -40,10 +66,21 @@ case $server_type in
     5 ) ssh gabriel@172.26.147.53;exit;;
     6 ) ssh gabriel@172.26.147.75;exit;;
     7 ) ssh gabriel@172.26.147.76;exit;;
-    8 ) ssh gabriel@192.168.0.25;exit;;
-    9 ) ssh gabriel@192.168.0.26;exit;;
     * ) exit;;
 esac
+else
+case $server_type in
+    1 ) ssh gabriel@192.168.0.25;exit;;
+    2 ) ssh gabriel@192.168.0.26;exit;;
+    * ) exit;;
+esac
+fi
+
+# echo -e "\033[34m";
+# echo -e "\e[0m";
+
+# the dir of pem keys
+keys_dir=/home/gabriel/keys
 
 # connect with remote server
 if [ -z "$pem_key" ]; then
