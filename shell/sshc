@@ -1,6 +1,10 @@
 #!/bin/bash
 
-# echo -ne "\033[32m";
+#clear the screen
+clear
+
+echo -ne "\033[32m";
+# echo -e "\033[34m";
 main_screen() {
 cat <<EOF
 +======================================================================+
@@ -57,6 +61,9 @@ if [ -z "$server_type" ]; then
     server_type="1"
 fi
 
+#reset color to normal
+tput sgr0
+
 if [ "$workspace" == "1" ]; then
 case $server_type in
     1 ) pem_key="dev-env-solr.pem";;
@@ -77,7 +84,6 @@ esac
 fi
 
 # echo -e "\033[34m";
-# echo -e "\e[0m";
 
 # the dir of pem keys
 keys_dir=/home/gabriel/keys
