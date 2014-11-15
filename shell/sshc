@@ -33,8 +33,8 @@ cat <<EOF
 +======================================================================+
 |          PLEASE CHOOSE REMOTE SERVER YOU WANT TO CONNECT             |
 +----------------------------------------------------------------------+
-|            1) 0X02 VIRTUALBOX ENVIRONMENT                            |
-|            2) 0X03 VIRTUALBOX ENVIRONMENT                            |
+|            1) 0X01 VIRTUALBOX ENVIRONMENT                            |
+|            2) 0X02 VIRTUALBOX ENVIRONMENT                            |
 +======================================================================+
 EOF
 }
@@ -70,8 +70,8 @@ case $server_type in
 esac
 else
 case $server_type in
-    1 ) ssh gabriel@192.168.0.25;exit;;
-    2 ) ssh gabriel@192.168.0.26;exit;;
+    1 ) ssh gabriel@192.168.0.2;exit;;
+    2 ) ssh gabriel@192.168.0.3;exit;;
     * ) exit;;
 esac
 fi
